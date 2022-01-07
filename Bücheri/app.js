@@ -17,4 +17,6 @@ app.get('/',function(req,res){
   res.render('login');
 });
 app.listen(3000);
+console.log("hello")
 
+//TextDecoderStream<>?"/
