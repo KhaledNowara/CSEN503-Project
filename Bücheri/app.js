@@ -20,4 +20,36 @@ app.get('/',function(req,res){
 app.get('/fiction',function(req,res){
   res.render('fiction.ejs');
 });
-app.listen(3002);
+
+app.get('/dune',function(req,res){
+  res.render('dune.ejs');
+});
+
+app.get('/mockingbird',function(req,res){
+  res.render('mockingbird.ejs');
+});
+
+app.get('/novel',function(req,res){
+  res.render('novel.ejs');
+});
+
+app.get('/flies',function(req,res){
+  res.render('flies.ejs');
+});
+
+app.get('/grapes',function(req,res){
+  res.render('grapes.ejs');
+});
+
+app.get('/poetry',function(req,res){
+  res.render('poetry.ejs');
+});
+
+app.get('/sun',function(req,res){
+  res.render('sun.ejs');
+});
+
+app.get('/leaves',function(req,res){
+  res.render('leaves.ejs');
+});
+app.listen(3000);
