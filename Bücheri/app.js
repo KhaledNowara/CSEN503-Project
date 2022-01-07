@@ -14,6 +14,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/',function(req,res){
-  res.render('login');
+  res.render('login.ejs');
 });
-app.listen(3000);
+
+app.get('/fiction',function(req,res){
+  res.render('fiction.ejs');
+});
+app.listen(3002);
