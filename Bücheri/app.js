@@ -1,9 +1,12 @@
-var express = require('express');
-var path = require('path');
-var fs = require('fs');
 
 
-var app = express();
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser') // import cookie parser module to use cookies for maintaining user sessions
+const fs = require('fs');
+const app = express();
+//changes vars to consts
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
