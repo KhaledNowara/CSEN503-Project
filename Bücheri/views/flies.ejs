@@ -3,25 +3,25 @@
 <head>
     <style>
         body {
-            background-image: url("background3.jpg");
+            background-image: url("background1.jpg");
             background-repeat: no-repeat;
             background-size: 100%;
         }
         h1 {
             color: white;
             text-align: center;
-            -webkit-text-stroke: 1px blue;
+            text-shadow: 2px 2px black;
         }
         .container1 {
             position: fixed;
-            left: 50px;
-            top: 150px;
+            left: 8vw;
+            top: 30vh;
             color: white;
         }
         .container2 {
             position: fixed;
-            left: 300px;
-            top: 150px;
+            left: 25vw;
+            top: 30vh;
             color: white;
             width: 300px;
             text-align: justify;
@@ -29,8 +29,8 @@
         }
         .video {
             position: fixed;
-            left: 700px;
-            top: 150px;
+            left: 55vw;
+            top: 30vh;
             color: white;
             width: 300px;
             text-align: justify;
@@ -38,8 +38,8 @@
         }
         .readlist {
             position: fixed;
-            left: 30px;
-            top: 470px;
+            left: 6.5vw;
+            top: 70vh;
         }
         #my {
             zoom: 110%;
@@ -55,7 +55,7 @@
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-2">
-        <a class="navbar-brand" style="color: rgb(191, 255, 161)">Lord of the Flies</a>
+        <a class="navbar-brand" style="color: rgb(246, 194, 68)">AFNA Public Library</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -66,10 +66,13 @@
             <form method="POST" action='/search' class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" name="Search" type="search" placeholder="Search"
                     aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                <button class="btn btn-outline-warning my-2 my-sm-0" type="submit">Search</button>
             </form>
         </div>
     </nav>
+    <div class="container">
+        <h1>Lord of the Flies, Fiction</h1>
+    </div>
     <div class="container1">
         <img id="image" src="/flies.jpg" width="193" height="300">
     </div>
@@ -77,10 +80,12 @@
         At the dawn of the next world war, a plane crashes on an uncharted island, stranding a group of schoolboys. At first, with no adult supervision, their freedom is something to celebrate; this far from civilization the boys can do anything they want. Anything.
     </div>
     <div class="readlist">
-        <button id="readlist" class="btn btn-secondary ml-3">Add to Want to Read List</button>
+        <button id="readlist" class="btn btn-warning ml-3">Add to Want to Read List</button>
     </div>
     <div class="video">
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/NnnZ6y1HPqI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/NnnZ6y1HPqI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
+
 </body>
+
 </html>

@@ -52,7 +52,6 @@ app.get('/sun',function(req,res){
 app.get('/leaves',function(req,res){
   res.render('leaves.ejs');
 });
-
 app.get('/registration',function(req,res){
   res.render('registration.ejs');
 });
@@ -94,5 +93,6 @@ app.post('/register', (req, res) => {
   //If User already exists (checker = 1)
   else throw 'Username Already Registered!';
 });
+
 
 app.listen(3000);
