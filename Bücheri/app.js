@@ -52,4 +52,8 @@ app.get('/sun',function(req,res){
 app.get('/leaves',function(req,res){
   res.render('leaves.ejs');
 });
-app.listen(3000);
+
+app.get('/home',function(req,res){
+  res.render('home.ejs');
+});
+app.listen(3001);
