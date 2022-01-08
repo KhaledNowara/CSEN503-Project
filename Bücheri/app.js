@@ -15,6 +15,15 @@ app.set('view engine', 'ejs');
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cookiesParser()); // to make the server instance parse cookies from incoming requests 
+
+app.use (function(req,res,next){
+    //check out for cookie validity 
+    // if not valid go to home page 
+    res.render('login.ej');
+});
+
+
 
 app.get('/',function(req,res){
   res.render('login.ejs');
