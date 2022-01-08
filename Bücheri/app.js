@@ -57,14 +57,21 @@ app.get('/registration',function(req,res){
   res.render('registration.ejs');
 });
 
-app.get('/home',function(req,res){
-  res.render('home.ejs');
-});
-
-app.post('/',function(req, res){
-var username = req.body.username;
-var password = req.body.password;
-
+app.post('/',(req, res) => {
+  var username = req.body.username;
+  var password = req.body.password;
+  let loginUser = {
+  "username": username,
+  "password": password
+  }
+var readUsers = fs.readFileSync("users.json");
+  var checker = 0;
+  if (readUsers != ""){
+    var usersList = JSON.parse(readUsers);
+    for (var i=0; i < usersList.length ; i++){
+      if (JSON.stringify(loginUser) == JSON.stringify(usersList[i])) {checker = 1;}}}
+  if (checker == 1) {res.render('home.ejs')}
+  else throw 'Login Details Incorrect!';
 });
 
 app.post('/register', (req, res) => {
