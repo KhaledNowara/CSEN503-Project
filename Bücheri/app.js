@@ -1,6 +1,6 @@
 var express = require('express');
 var path = require('path');
-
+var fs = require('fs');
 
 
 var app = express();
@@ -52,8 +52,47 @@ app.get('/sun',function(req,res){
 app.get('/leaves',function(req,res){
   res.render('leaves.ejs');
 });
+app.get('/registration',function(req,res){
+  res.render('registration.ejs');
+});
 
 app.get('/home',function(req,res){
   res.render('home.ejs');
 });
+
+app.post('/',function(req, res){
+var username = req.body.username;
+var password = req.body.password;
+
+});
+
+app.post('/register', (req, res) => {
+  var username = req.body.username;
+  var password = req.body.password;
+  let newUser = {
+  "username": username,
+  "password": password
+  }
+  var readUsers = fs.readFileSync("users.json");
+  var checker = -1;
+  //Checking if user already exists, Checking if users.json not empty so JSON.parse doesn't fail
+  if (readUsers != ""){
+    var usersList = JSON.parse(readUsers);
+    checker = 0;
+    for (var i=0; i < usersList.length ; i++){
+      if (newUser.username ==usersList[i].username) {checker = 1;}}
+  }
+  //Writing to the users.json if it is not empty
+  if(checker == 0){
+    var usersList = JSON.parse(readUsers);
+    usersList.push(newUser);
+    fs.writeFileSync("users.json", JSON.stringify(usersList));
+  }
+  //Writing to the users.json if it is empty
+  else if(checker ==-1) {fs.writeFileSync("users.json", JSON.stringify([newUser]))}
+  //If User already exists (checker = 1)
+  else throw 'Username Already Registered!';
+});
+
+
 app.listen(3000);
