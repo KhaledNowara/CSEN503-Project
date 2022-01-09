@@ -12,6 +12,7 @@ const app = express();
 //One time files creations, should only be run once in the servers life time to create the files 
 // fs.writeFileSync("users.json", JSON.stringify({}));
 // fs.writeFileSync("usersCookies.json",JSON.stringify({}));
+ fs.writeFileSync("usersReads.json",JSON.stringify({}))
 
 
 
@@ -128,7 +129,43 @@ app.get('/login', cookieGenerator,function(req,res){
 });
 
 
-
+// wish list book requests 
+app.post('/flies',function(req,res){
+  var {cookies} =  req;
+  var cookiesList = readCreate("usersCookies.json");
+  var usersList = readCreate("usersReads.json");
+  console.log(cookiesList[cookies.sessionid].username);
+  if (usersList[cookiesList[cookies.sessionid].username]){
+    console.log("by7awel tany");
+    usersList[cookiesList[cookies.sessionid].username].push('flies')
+    console.log("msh first book added");
+  }
+  else {
+    usersList[cookiesList[cookies.sessionid].username] = ['flies']
+    console.log("first book added");
+  }
+  fs.writeFileSync("usersReads.json",JSON.stringify(usersList))
+  res.end();
+  
+});
+app.post('/',function(req,res){
+  var {cookies} =  req;
+  var cookiesList = readCreate("usersCookies.json");
+  var usersList = readCreate("usersReads.json");
+  console.log(cookiesList[cookies.sessionid].username);
+  if (usersList[cookiesList[cookies.sessionid].username]){
+    console.log("by7awel tany");
+    usersList[cookiesList[cookies.sessionid].username].push('flies')
+    console.log("msh first book added");
+  }
+  else {
+    usersList[cookiesList[cookies.sessionid].username] = ['flies']
+    console.log("first book added");
+  }
+  fs.writeFileSync("usersReads.json",JSON.stringify(usersList))
+  res.end();
+  
+});
 app.post('/login',function(req, res){
 var {cookies} =  req;
 var{username,password} = req.body;
