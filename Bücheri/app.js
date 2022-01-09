@@ -53,7 +53,8 @@ app.get('/',cookieValidator,function(req,res){
   res.render('home.ejs');
 });
 
-app.get('/fiction',cookieValidator,function(req,res){
+
+  app.get('/fiction',cookieValidator,function(req,res){
   res.render('fiction.ejs');
 });
 
@@ -96,6 +97,7 @@ app.get('/login',function(req,res){
   res.render('login.ejs');
 });
 
+
 app.post('/login',function(req, res){
 var username = req.body.username;
 var password = req.body.password;
@@ -105,7 +107,6 @@ if (user){
   res.redirect('/');
   res.end();
 }
-
 
 });
 
@@ -136,6 +137,39 @@ app.post('/register', (req, res) => {
   
 });
 
+//implement logout post request
+app.post('/logout', (req, res) => {
+  res.render('login.ejs');
+  //TODO: implement logout
+});
+
+//search for books post request and try to predict misspelled words then render the search results
+app.post('/search', (req, res) => {
+  var search = req.body.Search;
+  var readBooks = fs.readFileSync("books.json");
+  var booksList = JSON.parse(readBooks);
+  var result = new Set();
+  for (var key in booksList){
+    if (key.toLowerCase().includes(search.toLowerCase())){
+      result.add(key);
+    }
+  }
+  var predictions = predict_wrong_input(search, booksList)
+  for (var a of predictions){
+    result.add(a);
+  }
+  var json_result = {};
+  if (result.size == 0){
+    json_result = {"No Results Found": "/home"};
+  }
+  else {
+    for (var key of result){
+      json_result[key] = booksList[key];
+    }
+  }
+  res.render('searchresults.ejs', {results: json_result});
+  
+});
 
 //Helper functions 
 // ---------------------------------------------------------------------------------
@@ -163,5 +197,22 @@ function makeid() {
  }
  return result;
 }
+//  
+function predict_wrong_input(wrong_input, predictions) {
+  var wrong_input_predictions = [];
+  for (var key in predictions) {
+    var intersection = 0;
+    for (let a of (new Set(wrong_input))) {
+      if ((new Set(key)).has(a)) {
+        intersection++;
+      }
+    }
+    var percentage = intersection / wrong_input.length;
+    if (percentage > 0.6) {
+      wrong_input_predictions.push(key);
+    }
+  }
+  return wrong_input_predictions;
+};
 
 app.listen(3000);
