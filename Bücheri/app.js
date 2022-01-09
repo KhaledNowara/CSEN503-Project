@@ -10,8 +10,8 @@ const app = express();
 // khaled says: changed vars to consts because 
 
 //One time files creations, should only be run once in the servers life time to create the files 
-fs.writeFileSync("users.json", JSON.stringify([]));
-fs.writeFileSync("usersCookies.json",JSON.stringify([]));
+// fs.writeFileSync("users.json", JSON.stringify({}));
+// fs.writeFileSync("usersCookies.json",JSON.stringify({}));
 
 
 
@@ -23,27 +23,40 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser()); // to make the server instance parse cookies from incoming requests 
-
+app.use((req, res, next) => {
+  res.set('Cache-Control', 'no-store')
+  next()
+})// disables getting back to login or registration
+//middelware functions
+//-------------------------------------
 function cookieValidator (req,res,next){
   var { cookies } = req
     //check out for cookie validity 
-    // if not valid go to home page
-    // var usersList = readCreate("users.json");
-
-    if(cookies[valid]){
+    // // if not valid go to home page
+    // console.log(cookiesList)
+    // console.log(cookies.sessionid);
+    // console.log(cookiesList[cookies.sessionid]);
+    var cookiesList = readCreate("usersCookies.json");
+    if(cookiesList[cookies.sessionid]){
       console.log(cookies)
       next();
     }
     else{ 
     res.redirect('/login');
-    res.end();
-    console.log("Hello World");
-  
-    
-    
+    res.end(); 
     }
 }
-
+function cookieGenerator (req,res,next){
+  var { cookies } = req;
+  console.log("cookieGenerator");
+  console.log(cookies);
+  if(!("sessionid" in cookies)){
+    console.log("making new cookies");
+    var cookie = makeid();
+    res.cookie("sessionid",cookie)
+  }
+  next();
+}
 
 // make the home page the main page
 // call the cookieValidator function before performing the request
@@ -90,18 +103,25 @@ app.get('/leaves',cookieValidator,function(req,res){
 });
 }
 
-app.get('/registration',function(req,res){
-  var {cookies } =  req;
-  if (cookies && cookies["valid"] === true)
+app.get('/registration', cookieGenerator,function(req,res){
+  var { cookies } = req;
+  var cookiesList = readCreate("usersCookies.json");
+  console.log(cookies.sessionid);
+  if(cookiesList[cookies.sessionid])
   res.redirect('/');
-  else
+  else{
   res.render('registration.ejs');
+  }
 });
 
-app.get('/login',function(req,res){
-  var { cookies } = req
-  if (cookies && cookies["valid"] === true)
+app.get('/login', cookieGenerator,function(req,res){
+  var { cookies } = req;
+  var cookiesList = readCreate("usersCookies.json");
+  console.log(cookies.sessionid);
+  if(cookiesList[cookies.sessionid]){
   res.redirect('/');
+  console.log("redirect")
+  }
   else{
   res.render('login.ejs');
   }
@@ -110,45 +130,44 @@ app.get('/login',function(req,res){
 
 
 app.post('/login',function(req, res){
-var username = req.body.username;
-var password = req.body.password;
-var cookie = makeid();
+var {cookies} =  req;
+var{username,password} = req.body;
 var usersList = readCreate("users.json");
 var cookieList = readCreate("usersCookies.json");
 var user = usersList [username]
 if (user){
-  usersList.push({[username]:{ "password": password}});
-  cookieList.push({[cookie]:{"username":username}});
+  if (user["password"] === password){
+  cookieList[cookies.sessionid] = {"username":username};
+  fs.writeFileSync("usersCookies.json",JSON.stringify(cookieList))
   res.redirect('/');
   res.end();
-  fs.writeFileSync("usersCookies.json",JSON.stringify(cookieList))
-
+  
+  }
 }
 
 });
 
 
 app.post('/register', (req, res) => {
-  var username = req.body.username;
-  var password = req.body.password;
-  var cookie = makeid();
+  var { cookies } = req;
+  var {username,password} = req.body;
   // read json files
   var usersList = readCreate("users.json");
-  var cookieList = readCreate("usersCookeis.json");
+  var cookieList = readCreate("usersCookies.json");
   
-  var user = usersList.find(element => element.username  === username)
+  
   //Checking if user already exists,  
-  if (user)
+  if (usersList[username])
      throw 'Username Already Registered!';
     // handle existing users
   
-    usersList.push({[username]:{ "password": password}});
-    cookieList.push({[cookie]:{"username":username}});
+    usersList[username]={ "password": password};
+    cookieList[cookies.sessionid] = {"username":username};
     fs.writeFileSync("users.json", JSON.stringify(usersList));
-    fs.writeFileSync("usersCookies.json",JSON.stringify(cookieList))
-    res.cookie([{"sessionid" :cookie},{"valid": true}])
-    console.log("here");
-    console.log(res.cookie);
+    fs.writeFileSync("usersCookies.json",JSON.stringify(cookieList));
+    
+    
+    
     res.redirect('/');
     res.end();
   
@@ -156,13 +175,12 @@ app.post('/register', (req, res) => {
 //implement logout post request
 app.get('/logout', (req, res) => {
   var {cookies } =  req;
-  var id = cookies["sessionid"]
-  var cookieList = readCreate("usersCookeis.json");
-  if (cookies && cookies["valid"] === true)
-     cookies["valid"]=false;
+  var cookieList = readCreate("usersCookies.json");
+  delete cookieList[cookies.sessionid];
+  fs.writeFileSync("usersCookies.json",JSON.stringify(cookieList));
   
   
-  res.render('login.ejs');
+  res.redirect('/login');
   //TODO: implement logout
 });
 
