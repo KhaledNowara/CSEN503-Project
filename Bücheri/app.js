@@ -4,6 +4,7 @@
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser') // import cookie parser module to use cookies for maintaining user sessions
+// npm install cookie-parser
 const fs = require('fs');
 const app = express();
 // khaled says: changed vars to consts because 
@@ -160,7 +161,7 @@ app.post('/search', (req, res) => {
   }
   var json_result = {};
   if (result.size == 0){
-    json_result = {"No Results Found": "/home"};
+    json_result = {"No Results Found": "/"};
   }
   else {
     for (var key of result){
