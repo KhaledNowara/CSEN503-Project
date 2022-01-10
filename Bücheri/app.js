@@ -148,18 +148,90 @@ app.post('/flies',function(req,res){
   res.end();
   
 });
-app.post('/',function(req,res){
+app.post('/leaves',function(req,res){
   var {cookies} =  req;
   var cookiesList = readCreate("usersCookies.json");
   var usersList = readCreate("usersReads.json");
   console.log(cookiesList[cookies.sessionid].username);
   if (usersList[cookiesList[cookies.sessionid].username]){
     console.log("by7awel tany");
-    usersList[cookiesList[cookies.sessionid].username].push('flies')
+    usersList[cookiesList[cookies.sessionid].username].push('leaves')
     console.log("msh first book added");
   }
   else {
-    usersList[cookiesList[cookies.sessionid].username] = ['flies']
+    usersList[cookiesList[cookies.sessionid].username] = ['leaves']
+    console.log("first book added");
+  }
+  fs.writeFileSync("usersReads.json",JSON.stringify(usersList))
+  res.end();
+  
+});
+app.post('/dune',function(req,res){
+  var {cookies} =  req;
+  var cookiesList = readCreate("usersCookies.json");
+  var usersList = readCreate("usersReads.json");
+  console.log(cookiesList[cookies.sessionid].username);
+  if (usersList[cookiesList[cookies.sessionid].username]){
+    console.log("by7awel tany");
+    usersList[cookiesList[cookies.sessionid].username].push('dune')
+    console.log("msh first book added");
+  }
+  else {
+    usersList[cookiesList[cookies.sessionid].username] = ['dune']
+    console.log("first book added");
+  }
+  fs.writeFileSync("usersReads.json",JSON.stringify(usersList))
+  res.end();
+  
+});
+app.post('/grapes',function(req,res){
+  var {cookies} =  req;
+  var cookiesList = readCreate("usersCookies.json");
+  var usersList = readCreate("usersReads.json");
+  console.log(cookiesList[cookies.sessionid].username);
+  if (usersList[cookiesList[cookies.sessionid].username]){
+    console.log("by7awel tany");
+    usersList[cookiesList[cookies.sessionid].username].push('grapes')
+    console.log("msh first book added");
+  }
+  else {
+    usersList[cookiesList[cookies.sessionid].username] = ['grapes']
+    console.log("first book added");
+  }
+  fs.writeFileSync("usersReads.json",JSON.stringify(usersList))
+  res.end();
+  
+});
+app.post('/sun',function(req,res){
+  var {cookies} =  req;
+  var cookiesList = readCreate("usersCookies.json");
+  var usersList = readCreate("usersReads.json");
+  console.log(cookiesList[cookies.sessionid].username);
+  if (usersList[cookiesList[cookies.sessionid].username]){
+    console.log("by7awel tany");
+    usersList[cookiesList[cookies.sessionid].username].push('sun')
+    console.log("msh first book added");
+  }
+  else {
+    usersList[cookiesList[cookies.sessionid].username] = ['sun']
+    console.log("first book added");
+  }
+  fs.writeFileSync("usersReads.json",JSON.stringify(usersList))
+  res.end();
+  
+});
+app.post('/mockingbird',function(req,res){
+  var {cookies} =  req;
+  var cookiesList = readCreate("usersCookies.json");
+  var usersList = readCreate("usersReads.json");
+  console.log(cookiesList[cookies.sessionid].username);
+  if (usersList[cookiesList[cookies.sessionid].username]){
+    console.log("by7awel tany");
+    usersList[cookiesList[cookies.sessionid].username].push('mockingbird')
+    console.log("msh first book added");
+  }
+  else {
+    usersList[cookiesList[cookies.sessionid].username] = ['mockingbird']
     console.log("first book added");
   }
   fs.writeFileSync("usersReads.json",JSON.stringify(usersList))
