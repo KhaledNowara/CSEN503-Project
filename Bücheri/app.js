@@ -10,8 +10,9 @@ const app = express();
 // khaled says: changed vars to consts because 
 
 //One time files creations, should only be run once in the servers life time to create the files 
-//fs.writeFileSync("users.json", JSON.stringify([]));
-// fs.writeFileSync("Cookies")
+// fs.writeFileSync("users.json", JSON.stringify({}));
+// fs.writeFileSync("usersCookies.json",JSON.stringify({}));
+ fs.writeFileSync("usersReads.json",JSON.stringify({}))
 
 
 
@@ -23,33 +24,44 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser()); // to make the server instance parse cookies from incoming requests 
-
+app.use((req, res, next) => {
+  res.set('Cache-Control', 'no-store')
+  next()
+})// disables getting back to login or registration
+//middelware functions
+//-------------------------------------
 function cookieValidator (req,res,next){
   var { cookies } = req
-  console.log("first");
     //check out for cookie validity 
-    // if not valid go to home page
-    // var usersList = readCreate("users.json");
-
-    // var cookie = usersList.find(element => element.cookies.find(cook =>cook === cookeis )) // search for the cookie in all cookies assigned for each user 
-    if("session.id" in cookies){
+    // // if not valid go to home page
+    // console.log(cookiesList)
+    // console.log(cookies.sessionid);
+    // console.log(cookiesList[cookies.sessionid]);
+    var cookiesList = readCreate("usersCookies.json");
+    if(cookiesList[cookies.sessionid]){
       console.log(cookies)
-      console.log("here")
       next();
     }
     else{ 
     res.redirect('/login');
-    res.end();
-    console.log("Hello World");
-  
-    
-    
+    res.end(); 
     }
 }
-
+function cookieGenerator (req,res,next){
+  var { cookies } = req;
+  console.log("cookieGenerator");
+  console.log(cookies);
+  if(!("sessionid" in cookies)){
+    console.log("making new cookies");
+    var cookie = makeid();
+    res.cookie("sessionid",cookie)
+  }
+  next();
+}
 
 // make the home page the main page
 // call the cookieValidator function before performing the request
+{
 app.get('/',cookieValidator,function(req,res){
   res.render('home.ejs');
 });
@@ -90,57 +102,194 @@ app.get('/sun',cookieValidator,function(req,res){
 app.get('/leaves',cookieValidator,function(req,res){
   res.render('leaves.ejs');
 });
-app.get('/registration',function(req,res){
+}
+
+app.get('/registration', cookieGenerator,function(req,res){
+  var { cookies } = req;
+  var cookiesList = readCreate("usersCookies.json");
+  console.log(cookies.sessionid);
+  if(cookiesList[cookies.sessionid])
+  res.redirect('/');
+  else{
   res.render('registration.ejs');
+  }
 });
 
-app.get('/login',function(req,res){
+app.get('/login', cookieGenerator,function(req,res){
+  var { cookies } = req;
+  var cookiesList = readCreate("usersCookies.json");
+  console.log(cookies.sessionid);
+  if(cookiesList[cookies.sessionid]){
+  res.redirect('/');
+  console.log("redirect")
+  }
+  else{
   res.render('login.ejs');
+  }
 });
 
 
+// wish list book requests 
+app.post('/flies',function(req,res){
+  var {cookies} =  req;
+  var cookiesList = readCreate("usersCookies.json");
+  var usersList = readCreate("usersReads.json");
+  console.log(cookiesList[cookies.sessionid].username);
+  if (usersList[cookiesList[cookies.sessionid].username]){
+    console.log("by7awel tany");
+    usersList[cookiesList[cookies.sessionid].username].push('flies')
+    console.log("msh first book added");
+  }
+  else {
+    usersList[cookiesList[cookies.sessionid].username] = ['flies']
+    console.log("first book added");
+  }
+  fs.writeFileSync("usersReads.json",JSON.stringify(usersList))
+  res.end();
+  
+});
+app.post('/leaves',function(req,res){
+  var {cookies} =  req;
+  var cookiesList = readCreate("usersCookies.json");
+  var usersList = readCreate("usersReads.json");
+  console.log(cookiesList[cookies.sessionid].username);
+  if (usersList[cookiesList[cookies.sessionid].username]){
+    console.log("by7awel tany");
+    usersList[cookiesList[cookies.sessionid].username].push('leaves')
+    console.log("msh first book added");
+  }
+  else {
+    usersList[cookiesList[cookies.sessionid].username] = ['leaves']
+    console.log("first book added");
+  }
+  fs.writeFileSync("usersReads.json",JSON.stringify(usersList))
+  res.end();
+  
+});
+app.post('/dune',function(req,res){
+  var {cookies} =  req;
+  var cookiesList = readCreate("usersCookies.json");
+  var usersList = readCreate("usersReads.json");
+  console.log(cookiesList[cookies.sessionid].username);
+  if (usersList[cookiesList[cookies.sessionid].username]){
+    console.log("by7awel tany");
+    usersList[cookiesList[cookies.sessionid].username].push('dune')
+    console.log("msh first book added");
+  }
+  else {
+    usersList[cookiesList[cookies.sessionid].username] = ['dune']
+    console.log("first book added");
+  }
+  fs.writeFileSync("usersReads.json",JSON.stringify(usersList))
+  res.end();
+  
+});
+app.post('/grapes',function(req,res){
+  var {cookies} =  req;
+  var cookiesList = readCreate("usersCookies.json");
+  var usersList = readCreate("usersReads.json");
+  console.log(cookiesList[cookies.sessionid].username);
+  if (usersList[cookiesList[cookies.sessionid].username]){
+    console.log("by7awel tany");
+    usersList[cookiesList[cookies.sessionid].username].push('grapes')
+    console.log("msh first book added");
+  }
+  else {
+    usersList[cookiesList[cookies.sessionid].username] = ['grapes']
+    console.log("first book added");
+  }
+  fs.writeFileSync("usersReads.json",JSON.stringify(usersList))
+  res.end();
+  
+});
+app.post('/sun',function(req,res){
+  var {cookies} =  req;
+  var cookiesList = readCreate("usersCookies.json");
+  var usersList = readCreate("usersReads.json");
+  console.log(cookiesList[cookies.sessionid].username);
+  if (usersList[cookiesList[cookies.sessionid].username]){
+    console.log("by7awel tany");
+    usersList[cookiesList[cookies.sessionid].username].push('sun')
+    console.log("msh first book added");
+  }
+  else {
+    usersList[cookiesList[cookies.sessionid].username] = ['sun']
+    console.log("first book added");
+  }
+  fs.writeFileSync("usersReads.json",JSON.stringify(usersList))
+  res.end();
+  
+});
+app.post('/mockingbird',function(req,res){
+  var {cookies} =  req;
+  var cookiesList = readCreate("usersCookies.json");
+  var usersList = readCreate("usersReads.json");
+  console.log(cookiesList[cookies.sessionid].username);
+  if (usersList[cookiesList[cookies.sessionid].username]){
+    console.log("by7awel tany");
+    usersList[cookiesList[cookies.sessionid].username].push('mockingbird')
+    console.log("msh first book added");
+  }
+  else {
+    usersList[cookiesList[cookies.sessionid].username] = ['mockingbird']
+    console.log("first book added");
+  }
+  fs.writeFileSync("usersReads.json",JSON.stringify(usersList))
+  res.end();
+  
+});
 app.post('/login',function(req, res){
-var username = req.body.username;
-var password = req.body.password;
+var {cookies} =  req;
+var{username,password} = req.body;
 var usersList = readCreate("users.json");
-var user = usersList.find(element => element.username  === username && password == element.password)
+var cookieList = readCreate("usersCookies.json");
+var user = usersList [username]
 if (user){
+  if (user["password"] === password){
+  cookieList[cookies.sessionid] = {"username":username};
+  fs.writeFileSync("usersCookies.json",JSON.stringify(cookieList))
   res.redirect('/');
   res.end();
+  
+  }
 }
 
 });
 
+
 app.post('/register', (req, res) => {
-  var username = req.body.username;
-  var password = req.body.password;
-  var cookie = makeid();
+  var { cookies } = req;
+  var {username,password} = req.body;
   // read json files
   var usersList = readCreate("users.json");
-  let newUser = {
-  "username": username,
-  "password": password,
-  "Cookies": [cookie]
-  }
-
-  var user = usersList.find(element => element.username  === username)
+  var cookieList = readCreate("usersCookies.json");
+  
+  
   //Checking if user already exists,  
-  if (user)
+  if (usersList[username])
      throw 'Username Already Registered!';
     // handle existing users
   
-    usersList.push(newUser);
+    usersList[username]={ "password": password};
+    cookieList[cookies.sessionid] = {"username":username};
     fs.writeFileSync("users.json", JSON.stringify(usersList));
-    res.cookie("session.id",cookie)
-    console.log(cookie);
+    fs.writeFileSync("usersCookies.json",JSON.stringify(cookieList));
+    
+    
+    
     res.redirect('/');
     res.end();
   
 });
-
 //implement logout post request
-app.post('/logout', (req, res) => {
-  res.render('login.ejs');
+app.get('/logout', (req, res) => {
+  var {cookies } =  req;
+  var cookieList = readCreate("usersCookies.json");
+  delete cookieList[cookies.sessionid];
+  fs.writeFileSync("usersCookies.json",JSON.stringify(cookieList));
+  
+  
+  res.redirect('/login');
   //TODO: implement logout
 });
 
