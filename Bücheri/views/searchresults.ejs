@@ -3,7 +3,7 @@
 <head>
     <style>
         body {
-            background-image: url("background3.jpg");
+            background-image: url("background1.jpg");
             background-repeat: no-repeat;
             background-size: 100%;
         }
@@ -11,7 +11,7 @@
         h1 {
             color: white;
             text-align: center;
-            -webkit-text-stroke: 1px blue;
+            text-shadow: 2px 2px black;
         }
     </style>
     <meta charset="UTF-8">
@@ -23,7 +23,11 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-2">
-        <a class="navbar-brand" style="color: rgb(191, 255, 161)">Search Results</a>
+        <form method= "POST" action= '/home' >
+            <button type= "submit" style="background-color: 
+            transparent; border: none; overflow: hidden; 
+            color: rgb(246, 194, 68); font-size: 26px;">AFNA Public Library</button>
+        </form>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -34,18 +38,24 @@
             <form method="POST" action='/search' class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" name="Search" type="search" placeholder="Search"
                     aria-label="Search">
-                <button class="btn btn-outline-warning my-2 my-sm-0" type="submit">Search</button>
+                    <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" style= "margin-right: 7px;">Search</button>
+            </form>
+            <form method="POST" action='/logout' class="form-inline my-2 my-lg-0">
+                <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Sign Out</button>
             </form>
         </div>
     </nav>
+    <div class="container">
+        <h1>Search Results</h1>
+    </div>
         <div class="grid">
             <% for(var book in results) { %>
             <!--vertical arrangement of books-->
             <div class="card" style="width: 15vw; display: inline-flex; border: 0px !important">
                 <img src="<%= results[book] %>.jpg" class="card-img-top" alt="<%= book %>" width="10vw !important">
-                <div class="card-body" style="background-color: #343a40;">
+                <div class="card-body" style="background-color: #313030;">
                     <h5 class="card-title" style="color: #fcae2d"><%= book %></h5>
-                    <a href="<%= results[book] %>" class="btn btn-primary" style="background-color: #fcae2d !important;">Go to Book</a>
+                    <a href="<%= results[book] %>" class="btn btn-warning my-2 my-sm-0" !important;">Go to Book</a>
             </div>
         </div>
             <% } %>
