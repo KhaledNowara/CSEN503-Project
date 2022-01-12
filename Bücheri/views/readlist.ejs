@@ -49,18 +49,18 @@
     <div class="container">
         <h1>Want to Read List</h1>
     </div>
-    <div class="grid">
-        <% for(var book in results) { %>
-        <!--vertical arrangement of books-->
-        <div class="card" style="width: 15vw; display: inline-flex; border: 0px !important">
-            <img src="<%= results[book] %>.jpg" class="card-img-top" alt="<%= book %>" width="10vw !important">
-            <div class="card-body" style="background-color: #ffffff;">
-                <h5 class="card-title" style="color: #fcae2d"><%= book %></h5>
-                <a href="<%= results[book] %>" class="btn btn-primary" style="background-color: #fcae2d !important;">Go to Book</a>
+        <div class="grid">
+            <% for(var book in results) { %>
+            <!--vertical arrangement of books-->
+            <div class="card" style="width: 15vw; display: inline-flex; border: 0px !important">
+                <img src="<%= results[book] %>.jpg" class="card-img-top" alt="<%= book %>" width="10vw !important">
+                <div class="card-body" style="background-color: #313030;">
+                    <h5 class="card-title" style="color: #fcae2d"><%= book %></h5>
+                    <a href="<%= results[book] %>" class="btn btn-warning my-2 my-sm-0" !important;">Go to Book</a>
+            </div>
         </div>
-    </div>
-        <% } %>
-    </div>
+            <% } %>
+        </div>
     
 </body>
 </html>
