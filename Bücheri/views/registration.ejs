@@ -4,21 +4,23 @@
 <head>
     <style>
         body {
-            background-image: url("background2.jpg");
+            background-image: url("background1.jpg");
             background-repeat: no-repeat;
             background-size: 100%;
             }
-        h1 {
+            h1 {
             color: white;
             text-align: center;
-            -webkit-text-stroke: 1px blue;
+            position:relative;
+            left:0vw;
+            top:5vh;
+            text-shadow: 2px 2px black;
         }
         .cont {
             position:relative;
-            left:600px;
-            top:50px;
+            left:43vw;
+            top:15vw;
             color: white;
-            -webkit-text-stroke: 0.5px black;
         }
     </style>
     <meta charset="UTF-8">
@@ -39,7 +41,7 @@
             <input type="text" id="user" name="username"> <br>
             Password: <br>
             <input type="password" id="password" name="password"> <br> <br>
-            <input type="submit" id="simple_click" class="btn btn-secondary" value="Register"> <br>
+            <input type="submit" id="simple_click" class="btn btn-warning" value="Register"> <br>
         </form>
     </div>
 </body>

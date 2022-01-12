@@ -15,7 +15,7 @@ const popup = require('alert'); //USED FOR POPUPS (npm install alert) to run
 //One time files creations, should only be run once in the servers life time to create the files 
 // fs.writeFileSync("users.json", JSON.stringify({}));
 // fs.writeFileSync("usersCookies.json",JSON.stringify({}));
- //fs.writeFileSync("usersReads.json",JSON.stringify({}))
+// fs.writeFileSync("usersReads.json",JSON.stringify({}))
 
 
 
@@ -37,12 +37,8 @@ function cookieValidator (req,res,next){
   var { cookies } = req
     //check out for cookie validity 
     // // if not valid go to home page
-    // console.log(cookiesList)
-    // console.log(cookies.sessionid);
-    // console.log(cookiesList[cookies.sessionid]);
     var cookiesList = readCreate("usersCookies.json");
     if(cookiesList[cookies.sessionid]){
-      (cookies)
       next();
     }
     else{ 
@@ -52,7 +48,6 @@ function cookieValidator (req,res,next){
 }
 function cookieGenerator (req,res,next){
   var { cookies } = req;
-  ("cookieGenerator");
   if(!("sessionid" in cookies)){
     var cookie = makeid();
     res.cookie("sessionid",cookie)
@@ -108,8 +103,7 @@ app.get('/readlist',cookieValidator,function(req,res){
   var {cookies} =  req;
   var cookiesList = readCreate("usersCookies.json");
   var usersList = readCreate("usersReads.json");
-  var readBooks = fs.readFileSync("books.json");
-  var booksList = JSON.parse(readBooks);
+  var booksList = readCreate("books.json")
   var json_result = [];
   if (usersList[cookiesList[cookies.sessionid].username].length == 0){
     json_result = {"Your List is Empty": "/"};
@@ -148,181 +142,47 @@ app.post('/home', function(req,res){
   res.render('home.ejs');
 });
 
-// wish list book requests 
+// wishlist book requests 
 app.post('/flies',function(req,res){
   var {cookies} =  req;
-  var cookiesList = readCreate("usersCookies.json");
-  var usersList = readCreate("usersReads.json");
-  var flag =  false;
-    if (usersList[cookiesList[cookies.sessionid].username]){
-      usersList[cookiesList[cookies.sessionid].username].every(element => {
-        if (element == "Lord of the Flies") {
-          flag = true;
-          return false;
-        }
-        return true;
-      });
-      if(!flag){
-      usersList[cookiesList[cookies.sessionid].username].push('Lord of the Flies');
-      fs.writeFileSync("usersReads.json",JSON.stringify(usersList))
-      popup("added to reading list");
-      }
-      else{
-        popup("book has already been added to reading list");
-      }
-    }
-    else {
-     usersList[cookiesList[cookies.sessionid].username] = ['Lord of the Flies'];
-     fs.writeFileSync("usersReads.json",JSON.stringify(usersList))
-      popup("added to reading list");
-    }
-    res.render('novel.ejs');
-    res.end();
+  addBook(cookies,"Lord of the Flies");   
+  res.render('novel.ejs');
+  res.end();
   }
   
 );
+
 app.post('/leaves',function(req,res){
   var {cookies} =  req;
-  var cookiesList = readCreate("usersCookies.json");
-  var usersList = readCreate("usersReads.json");
-  var flag = false;
-  if (usersList[cookiesList[cookies.sessionid].username]){
-    usersList[cookiesList[cookies.sessionid].username].every(element => {
-      if (element == "Leaves of Grass") {
-        flag = true;
-        return false;
-      }
-      return true;
-    });
-    if(!flag){
-    usersList[cookiesList[cookies.sessionid].username].push('Leaves of Grass');
-    fs.writeFileSync("usersReads.json",JSON.stringify(usersList))
-    popup("added to reading list");
-    }
-    else{
-      popup("book has already been added to reading list");
-    }
-  }
-  else {
-    usersList[cookiesList[cookies.sessionid].username] = ['Leaves of Grass'];
-  }
+  addBook(cookies,"Leaves of Grass");   
   res.render('poetry.ejs');
   res.end();
   
 });
 app.post('/dune',function(req,res){
   var {cookies} =  req;
-  var cookiesList = readCreate("usersCookies.json");
-  var usersList = readCreate("usersReads.json");
-  var flag = false;
-  if (usersList[cookiesList[cookies.sessionid].username]){
-    usersList[cookiesList[cookies.sessionid].username].every(element => {
-      if (element == "Dune") {
-        flag = true;
-        return false;
-      }
-      return true;
-    });
-    if(!flag){
-    usersList[cookiesList[cookies.sessionid].username].push('Dune');
-    fs.writeFileSync("usersReads.json",JSON.stringify(usersList))
-    popup("added to reading list");
-    }
-    else{
-      popup("book has already been added to reading list");
-    }
-  }
-  else {
-    usersList[cookiesList[cookies.sessionid].username] = ['Dune'];
-  }
+  addBook(cookies,"Dune");   
   res.render('fiction.ejs');
   res.end();
   
 });
 app.post('/grapes',function(req,res){
   var {cookies} =  req;
-  var cookiesList = readCreate("usersCookies.json");
-  var usersList = readCreate("usersReads.json");
-  var flag = false;
-  if (usersList[cookiesList[cookies.sessionid].username]){
-    usersList[cookiesList[cookies.sessionid].username].every(element => {
-      if (element == "The Grapes of Wrathapes") {
-        flag = true;
-        return false;
-      }
-      return true;
-    });
-    if(!flag){
-    usersList[cookiesList[cookies.sessionid].username].push('The Grapes of Wrathapes');
-    fs.writeFileSync("usersReads.json",JSON.stringify(usersList))
-    popup("added to reading list");
-    }
-    else{
-      popup("book has already been added to reading list");
-    }
-  }
-  else {
-    usersList[cookiesList[cookies.sessionid].username] = ['The Grapes of Wrathapes'];
-  }
+  addBook(cookies,"The Grapes of Wrath");   
   res.render('novel.ejs');
   res.end();
   
 });
 app.post('/sun',function(req,res){
   var {cookies} =  req;
-  var cookiesList = readCreate("usersCookies.json");
-  var usersList = readCreate("usersReads.json");
-  var flag = false;
-  if (usersList[cookiesList[cookies.sessionid].username]){
-    usersList[cookiesList[cookies.sessionid].username].every(element => {
-      if (element == "The Sun and Her Flowers") {
-        flag = true;
-        return false;
-      }
-      return true;
-    });
-    if(!flag){
-    usersList[cookiesList[cookies.sessionid].username].push('The Sun and Her Flowers');
-    fs.writeFileSync("usersReads.json",JSON.stringify(usersList))
-    popup("added to reading list");
-    }
-    else{
-      popup("book has already been added to reading list");
-    }
-  }
-  else {
-    usersList[cookiesList[cookies.sessionid].username] = ['The Sun and Her Flowers'];
-  }
+  addBook(cookies,"The Sun and Her Flowers");   
   res.render('poetry.ejs');
   res.end();
   
 });
 app.post('/mockingbird',function(req,res){
   var {cookies} =  req;
-  var cookiesList = readCreate("usersCookies.json");
-  var usersList = readCreate("usersReads.json");
-  var flag = false;
-  if (usersList[cookiesList[cookies.sessionid].username]){
-    usersList[cookiesList[cookies.sessionid].username].every(element => {
-      if (element == "mockingbird") {
-        flag = true;
-        return false;
-      }
-      return true;
-    });
-    if(!flag){
-    usersList[cookiesList[cookies.sessionid].username].push('To Kill a Mockingbird');
-    fs.writeFileSync("usersReads.json",JSON.stringify(usersList))
-    popup("added to reading list");
-    }
-    else{
-      popup("book has already been added to reading list");
-    }
-  }
-  else {
-    usersList[cookiesList[cookies.sessionid].username] = ['To Kill a Mockingbird']
- 
-  }
+  addBook(cookies,"To Kill a Mockingbird");   
   res.render('fiction.ejs');
   res.end();
   
@@ -364,10 +224,15 @@ app.post('/register', (req, res) => {
   
   
   //Checking if user already exists,  
-  if (usersList[username])
-     throw 'Username Already Registered!';
-    // handle existing users
-  
+  if (usersList[username]){
+    popup("User Name already exists!!");
+    res.redirect('/registration');
+    res.end();
+  }
+  else if (password.length < 8 ){
+    popup("Password must be longer than 8 charcters!!");
+  }
+  else{
     usersList[username]={ "password": password};
     cookieList[cookies.sessionid] = {"username":username};
     usersReads[username] = [];
@@ -378,7 +243,7 @@ app.post('/register', (req, res) => {
     
     res.redirect('/');
     res.end();
-  
+  }
 });
 //implement logout post request
 app.post('/logout', (req, res) => {
@@ -446,7 +311,21 @@ function makeid() {
  }
  return result;
 }
-//  
+//adds books to reading lists
+function addBook (cookies,bookadd){
+  var cookiesList = readCreate("usersCookies.json");
+  var usersList = readCreate("usersReads.json");
+
+  if ( usersList[cookiesList[cookies.sessionid].username].find(book => book === bookadd)){
+    popup("book has already been added to reading list");
+  }
+  else{
+    usersList[cookiesList[cookies.sessionid].username].push(bookadd);
+    fs.writeFileSync("usersReads.json",JSON.stringify(usersList))
+    popup("added to reading list");
+  }
+
+}
 function predict_wrong_input(wrong_input, predictions) {
   var wrong_input_predictions = [];
   for (var key in predictions) {
