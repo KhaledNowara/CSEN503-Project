@@ -38,7 +38,7 @@
         }
         .readlist {
             position: fixed;
-            left: 6.5vw;
+            left: 10vw;
             top: 70vh;
         }
         #my {
@@ -55,7 +55,11 @@
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-2">
-        <a class="navbar-brand" style="color: rgb(246, 194, 68)">AFNA Public Library</a>
+        <form method= "POST" action= '/home' >
+            <button type= "submit" style="background-color: 
+            transparent; border: none; overflow: hidden; 
+            color: rgb(246, 194, 68); font-size: 26px;">AFNA Public Library</button>
+        </form>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -66,8 +70,11 @@
             <form method="POST" action='/search' class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" name="Search" type="search" placeholder="Search"
                     aria-label="Search">
-                <button class="btn btn-outline-warning my-2 my-sm-0" type="submit">Search</button>
-            </form>
+                    <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" style= "margin-right: 7px;">Search</button>
+                </form>
+                <form method="POST" action='/logout' class="form-inline my-2 my-lg-0">
+                    <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Sign Out</button>
+                </form>
         </div>
     </nav>
     <div class="container">
@@ -82,7 +89,7 @@
     <div class="readlist">
         <form method="POST" action='/leaves' class="form-inline my-2 my-lg-0">
                
-            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit">Add to wish list</button>
+            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit">Add to wishlist</button>
         </form>
     </div>
     <div class="video">
