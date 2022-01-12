@@ -9,7 +9,7 @@ const fs = require('fs');
 const { Script } = require('vm');
 const app = express();
 const popup = require('alert'); //USED FOR POPUPS (npm install alert) to run
-
+var PORT =process.env.PORT || 3000
 // khaled says: changed vars to consts because 
 
 //One time files creations, should only be run once in the servers life time to create the files 
@@ -343,5 +343,5 @@ function predict_wrong_input(wrong_input, predictions) {
   return wrong_input_predictions;
 };
 
-app.listen(3000);
+app.listen(PORT);
 }
